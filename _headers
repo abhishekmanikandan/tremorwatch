@@ -1,0 +1,16 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=()
+
+/css/*
+  Cache-Control: public, max-age=604800, immutable
+
+/js/*
+  Cache-Control: public, max-age=604800, immutable
+
+/favicon.svg
+  Cache-Control: public, max-age=604800, immutable
+
+/api/*
+  Cache-Control: public, max-age=60

@@ -1,0 +1,4 @@
+# Replace pub-0000000000000000 with your real AdSense publisher ID
+# (find it in AdSense under Account > Settings > Account information).
+# This file is required by Google for AdSense to serve ads without warnings.
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

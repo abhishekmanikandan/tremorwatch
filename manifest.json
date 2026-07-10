@@ -1,0 +1,12 @@
+{
+  "name": "TremorWatch – Live Earthquake Tracker",
+  "short_name": "TremorWatch",
+  "description": "Live, auto-updating earthquake tracker with an interactive world map and magnitude filters.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

@@ -37,7 +37,7 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
-# Dependency directories
+# Dependencies
 node_modules/
 jspm_packages/
 
@@ -64,6 +64,9 @@ web_modules/
 
 # Yarn Integrity file
 .yarn-integrity
+
+# Wrangler local state/cache
+.wrangler/
 
 # dotenv environment variable files
 .env
@@ -141,3 +144,10 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# OS/editor noise
+.DS_Store
+.vscode/
+
+# Local docs backup
+README.backup.local.md

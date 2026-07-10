@@ -1,0 +1,252 @@
+/* QuakeScope — base styles. Plain CSS, no build step, so the template stays
+   copy-paste portable to any static host. */
+
+:root {
+  --color-bg: #0b1220;
+  --color-bg-alt: #111c33;
+  --color-surface: #16223d;
+  --color-border: #253253;
+  --color-text: #e7ecf7;
+  --color-text-muted: #9fb0d0;
+  --color-accent: #ff5a4e;
+  --color-accent-2: #2fd6a7;
+  --color-warn: #ffb020;
+  --radius: 10px;
+  --max-width: 1160px;
+  font-size: 16px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.55;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: var(--color-accent-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-alt);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  gap: 16px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-text);
+}
+.brand .dot { color: var(--color-accent); }
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.main-nav a {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.main-nav a:hover, .main-nav a.active { color: var(--color-text); text-decoration: none; }
+
+/* ---------- Hero / stats ---------- */
+.hero {
+  padding: 40px 0 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+.hero h1 { font-size: clamp(1.6rem, 3vw, 2.4rem); margin: 0 0 10px; }
+.hero p.lede { color: var(--color-text-muted); max-width: 65ch; margin: 0 0 24px; }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.stat-card .label { color: var(--color-text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.stat-card .value { font-size: 1.7rem; font-weight: 700; margin-top: 4px; }
+.stat-card .value.mag-high { color: var(--color-accent); }
+
+/* ---------- Controls ---------- */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 24px 0;
+}
+.controls label { font-size: 0.85rem; color: var(--color-text-muted); margin-right: 6px; }
+.controls select, .controls button {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+.controls button { cursor: pointer; }
+.controls button:hover { border-color: var(--color-accent-2); }
+.status-line { font-size: 0.8rem; color: var(--color-text-muted); margin-left: auto; }
+
+/* ---------- Map ---------- */
+#map {
+  height: 420px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  margin-bottom: 28px;
+  background: var(--color-surface);
+}
+
+/* ---------- Quake table ---------- */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+table.quakes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  min-width: 640px;
+}
+table.quakes th, table.quakes td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+table.quakes th {
+  background: var(--color-bg-alt);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  position: sticky;
+  top: 0;
+}
+table.quakes td.place { white-space: normal; min-width: 220px; }
+.mag-badge {
+  display: inline-block;
+  min-width: 2.4em;
+  text-align: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #0b1220;
+  background: var(--color-accent-2);
+}
+.mag-badge.m4 { background: var(--color-warn); }
+.mag-badge.m6 { background: var(--color-accent); color: #fff; }
+
+/* ---------- Content sections ---------- */
+section.content-block {
+  padding: 36px 0;
+  border-top: 1px solid var(--color-border);
+}
+section.content-block h2 { font-size: 1.5rem; margin-bottom: 12px; }
+section.content-block h3 { font-size: 1.15rem; margin: 20px 0 8px; }
+.two-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+/* ---------- Ad slots ---------- */
+.ad-slot {
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  padding: 10px;
+  margin: 28px 0;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-alt);
+  margin-top: 40px;
+  padding: 32px 0;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 24px;
+  margin-bottom: 20px;
+}
+.footer-cols h4 { color: var(--color-text); margin: 0 0 10px; font-size: 0.9rem; }
+.footer-cols ul { list-style: none; margin: 0; padding: 0; }
+.footer-cols li { margin-bottom: 6px; }
+.footer-bottom {
+  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+/* ---------- Utility / static pages ---------- */
+.page-content {
+  padding: 40px 0 60px;
+  max-width: 75ch;
+  margin: 0 auto;
+}
+.page-content h1 { font-size: 1.9rem; }
+.page-content h2 { font-size: 1.3rem; margin-top: 28px; }
+.breadcrumb { font-size: 0.85rem; color: var(--color-text-muted); padding-top: 16px; }
+
+.faq-item { margin-bottom: 20px; }
+.faq-item h3 { margin-bottom: 4px; }
+
+.updated-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 640px) {
+  .main-nav ul { gap: 12px; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+}

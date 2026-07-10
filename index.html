@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Earthquake Tracker – Real-Time Global Earthquake Map &amp; Data | TremorWatch</title>
+<meta name="description" content="Live, auto-updating earthquake tracker with an interactive world map, magnitude filters, and data sourced directly from the USGS. Updated every minute.">
+<link rel="canonical" href="https://www.tremorwatch.com/">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TremorWatch">
+<meta property="og:title" content="Live Earthquake Tracker – Real-Time Global Earthquake Map &amp; Data">
+<meta property="og:description" content="Live, auto-updating earthquake tracker with an interactive world map, magnitude filters, and data sourced directly from the USGS. Updated every minute.">
+<meta property="og:url" content="https://www.tremorwatch.com/">
+<meta property="og:image" content="https://www.tremorwatch.com/og-image.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Live Earthquake Tracker – Real-Time Global Earthquake Map &amp; Data">
+<meta name="twitter:description" content="Live, auto-updating earthquake tracker with an interactive world map and magnitude filters. Data from the USGS, refreshed every minute.">
+<meta name="twitter:image" content="https://www.tremorwatch.com/og-image.png">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="preconnect" href="https://tile.openstreetmap.org">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "TremorWatch",
+  "url": "https://www.tremorwatch.com/",
+  "description": "Live, auto-updating earthquake tracker with an interactive world map, magnitude filters, and data sourced directly from the USGS.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TremorWatch",
+  "url": "https://www.tremorwatch.com/",
+  "logo": "https://www.tremorwatch.com/favicon.svg"
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">Tremor<span class="dot">Watch</span></a>
+    <nav class="main-nav" aria-label="Primary">
+      <ul>
+        <li><a href="/" class="active">Live Map</a></li>
+        <li><a href="/guides/earthquake-magnitude-explained.html">Magnitude Guide</a></li>
+        <li><a href="/guides/earthquake-safety-tips.html">Safety Tips</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Live Global Earthquake Tracker</h1>
+      <p class="lede">Real-time earthquake data straight from the U.S. Geological Survey, refreshed every minute. Filter by magnitude and time range, explore the interactive map, and check the full list below.</p>
+
+      <div class="stat-grid" id="stat-grid" aria-live="polite">
+        <div class="stat-card">
+          <div class="label">Quakes (selected range)</div>
+          <div class="value" id="stat-count">–</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Strongest magnitude</div>
+          <div class="value" id="stat-max-mag">–</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Most active region</div>
+          <div class="value" id="stat-top-region" style="font-size:1.1rem;">–</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Last updated</div>
+          <div class="value" id="stat-updated" style="font-size:1.1rem;">–</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="controls">
+      <div>
+        <label for="feed-select">Time range</label>
+        <select id="feed-select">
+          <option value="hour">Past hour</option>
+          <option value="day" selected>Past 24 hours</option>
+          <option value="week">Past 7 days</option>
+          <option value="significant_week">Significant (7 days)</option>
+        </select>
+      </div>
+      <div>
+        <label for="mag-select">Min magnitude</label>
+        <select id="mag-select">
+          <option value="0" selected>All</option>
+          <option value="2.5">2.5+</option>
+          <option value="4">4.0+</option>
+          <option value="5">5.0+</option>
+          <option value="6">6.0+</option>
+        </select>
+      </div>
+      <button id="refresh-btn" type="button">Refresh now</button>
+      <span class="status-line" id="status-line">Loading…</span>
+    </div>
+
+    <div id="map" role="img" aria-label="Interactive world map of recent earthquake locations"></div>
+
+    <div class="ad-slot" aria-hidden="true"><!-- AdSense unit: in-content, above the fold table. See README for setup. --></div>
+
+    <div class="table-wrap">
+      <table class="quakes">
+        <caption class="sr-only">Recent earthquakes, sorted by time</caption>
+        <thead>
+          <tr>
+            <th scope="col">Time (local)</th>
+            <th scope="col">Magnitude</th>
+            <th scope="col" class="place">Location</th>
+            <th scope="col">Depth (km)</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody id="quake-rows">
+          <tr><td colspan="5">Loading live earthquake data…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <section class="content-block">
+    <div class="wrap">
+      <h2>How this earthquake tracker works</h2>
+      <div class="two-col">
+        <div>
+          <h3>Data source</h3>
+          <p>All earthquake data on this page comes directly from the <a href="https://earthquake.usgs.gov/earthquakes/feed/" rel="noopener" target="_blank">USGS Earthquake Hazards Program</a> GeoJSON feeds, the same authoritative source used by seismologists and emergency response agencies worldwide. We don't estimate, delay, or editorialize the numbers — magnitude, depth, and location come straight from USGS seismographic networks.</p>
+          <h3>Update frequency</h3>
+          <p>The feed is re-fetched from USGS and cached at the edge for 60 seconds, then your browser polls for fresh data automatically. That means the list and map you're looking at are, at most, a minute or two behind real time.</p>
+        </div>
+        <div>
+          <h3>Reading the magnitude scale</h3>
+          <p>Earthquake magnitude is logarithmic: each whole-number increase represents roughly 32 times more energy released. A magnitude 6.0 quake releases about 32x more energy than a 5.0, not just "20% more." See our full <a href="/guides/earthquake-magnitude-explained.html">magnitude guide</a> for a plain-English breakdown.</p>
+          <h3>Depth matters too</h3>
+          <p>Shallow earthquakes (under ~70 km) tend to cause more surface shaking for the same magnitude than deep ones, because the energy has less distance to dissipate before reaching the surface.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-block">
+    <div class="wrap">
+      <h2>Frequently asked questions</h2>
+      <div class="faq-item">
+        <h3>Is this data real-time?</h3>
+        <p>It's near real-time. USGS typically publishes automated earthquake detections within seconds to a few minutes of an event, and this page refreshes its cache every 60 seconds on top of that.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why did a magnitude change after I refreshed?</h3>
+        <p>Initial magnitude estimates are automated and can be revised as seismologists review more seismograph readings, sometimes for hours after an event. This is normal and reflects USGS's own review process, not an error on this page.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does a high magnitude always mean high damage risk?</h3>
+        <p>No — damage risk depends on magnitude, depth, distance from populated areas, local building codes, and soil conditions. A magnitude 6.5 quake deep under the ocean may cause no damage, while a shallow 5.5 quake under a city can be destructive. See our <a href="/guides/earthquake-safety-tips.html">safety guide</a> for practical preparedness steps.</p>
+      </div>
+      <p><a href="/faq.html">See all FAQs →</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-cols">
+      <div>
+        <h4>TremorWatch</h4>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Guides</h4>
+        <ul>
+          <li><a href="/guides/earthquake-magnitude-explained.html">Magnitude explained</a></li>
+          <li><a href="/guides/earthquake-safety-tips.html">Safety tips</a></li>
+          <li><a href="/faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Data source</h4>
+        <ul>
+          <li><a href="https://earthquake.usgs.gov/" rel="noopener" target="_blank">USGS Earthquake Hazards Program</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> TremorWatch. Earthquake data courtesy of the USGS, a U.S. government public-domain source.</span>
+      <span>Not an emergency alert service. For official warnings, consult your local geological survey or civil authority.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/js/app.js" defer></script>
+</body>
+</html>
