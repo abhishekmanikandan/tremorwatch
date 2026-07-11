@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://www.tremorwatch.com/sitemap.xml
+Sitemap: https://www.tremorpulse.com/sitemap.xml
