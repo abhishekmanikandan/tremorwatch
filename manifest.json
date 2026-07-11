@@ -1,6 +1,6 @@
 {
-  "name": "TremorWatch – Live Earthquake Tracker",
-  "short_name": "TremorWatch",
+  "name": "Tremorpulse – Live Earthquake Tracker",
+  "short_name": "Tremorpulse",
   "description": "Live, auto-updating earthquake tracker with an interactive world map and magnitude filters.",
   "start_url": "/",
   "display": "standalone",

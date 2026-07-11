@@ -1,12 +1,12 @@
-# TremorWatch
+# Tremorpulse
 
-TremorWatch is a lightweight, static earthquake tracking website that shows
+Tremorpulse is a lightweight, static earthquake tracking website that shows
 recent earthquake activity in near real time.
 
 It combines a clean frontend with a small Cloudflare Pages Function proxy so
 live data can be fetched reliably from the USGS public earthquake feed.
 
-## What TremorWatch Includes
+## What Tremorpulse Includes
 
 - Live earthquake list and map view on the homepage
 - Auto-refreshing quake data from a serverless endpoint
@@ -15,7 +15,7 @@ live data can be fetched reliably from the USGS public earthquake feed.
 
 ## Data Source
 
-TremorWatch uses the USGS earthquake feed:
+Tremorpulse uses the USGS earthquake feed:
 
 https://earthquake.usgs.gov/earthquakes/feed/
 
@@ -35,4 +35,4 @@ https://earthquake.usgs.gov/earthquakes/feed/
 ## Purpose
 
 This repository is intended as a clean starting point for a public earthquake
-monitoring site under the TremorWatch brand.
+monitoring site under the Tremorpulse brand.

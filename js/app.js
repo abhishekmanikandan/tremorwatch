@@ -1,4 +1,4 @@
-// TremorWatch front-end: fetches /api/quakes (same-origin, so no CORS to worry
+// Tremorpulse front-end: fetches /api/quakes (same-origin, so no CORS to worry
 // about) and renders the stat cards, table, and Leaflet map. Polls every 60s to
 // match the edge cache TTL set in functions/api/quakes.js — polling faster than
 // that would just re-serve the same cached response.
